@@ -1,6 +1,15 @@
 {
-  "branch_mapping": {},
+  "branch_mapping": {
+    "quakertown pa ymca": "quakertown",
+    "warminster pa ymca": "warminster",
+    "nazareth pa": "nazareth",
+    "slate belt branch (pen argyl pa)": "slate_belt",
+    "fairless hills pa": "fairless_hills",
+    "easton ymca": "easton",
+    "bethlehem ymca": "bethlehem",
+    "doylestown ymca": "doylestown"
+  },
   "exclusion_rules": {},
   "contactability_policy": {},
   "transition_rules": {}
-} 
+}

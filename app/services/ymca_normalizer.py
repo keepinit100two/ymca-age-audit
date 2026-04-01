@@ -1,4 +1,6 @@
+import json
 from datetime import datetime, date
+from pathlib import Path
 
 from app.domain.ymca_schemas import (
     DaxkoRawRow,
@@ -10,19 +12,23 @@ from app.domain.ymca_schemas import (
 
 
 class YmcaNormalizationService:
+    def __init__(self, rules_path: str | None = None):
+        self.rules = self._load_rules(rules_path)
+        self.branch_mapping = self.rules.get("branch_mapping", {})
+
     def normalize(self, raw: DaxkoRawRow):
         """
         Initial deterministic normalization slice:
         - full name composition
-        - full known branch canonicalization
+        - config-driven branch canonicalization
         - basic email contactability
         - membership-type derived flags
         - simple turning-age derivation
 
         Rules:
-        - Pure function (no side effects)
+        - Pure transformation after config load
         - Deterministic
-        - No external calls
+        - No external calls during normalize()
         - No database writes
         """
 
@@ -79,6 +85,11 @@ class YmcaNormalizationService:
 
         return member, membership, snapshot, flags
 
+    def _load_rules(self, rules_path: str | None) -> dict:
+        path = Path(rules_path) if rules_path else Path("configs/ymca_rules.json")
+        with path.open("r", encoding="utf-8") as f:
+            return json.load(f)
+
     def _compose_full_name(self, first_name: str, last_name: str) -> str:
         return f"{first_name.strip()} {last_name.strip()}".strip()
 
@@ -102,25 +113,7 @@ class YmcaNormalizationService:
             return "unknown"
 
         normalized = branch_name.strip().lower()
-
-        if "quakertown" in normalized:
-            return "quakertown"
-        if "warminster" in normalized:
-            return "warminster"
-        if "nazareth" in normalized:
-            return "nazareth"
-        if "slate belt" in normalized or "pen argyl" in normalized:
-            return "slate_belt"
-        if "fairless hills" in normalized:
-            return "fairless_hills"
-        if "easton" in normalized:
-            return "easton"
-        if "bethlehem" in normalized:
-            return "bethlehem"
-        if "doylestown" in normalized:
-            return "doylestown"
-
-        return "unknown"
+        return self.branch_mapping.get(normalized, "unknown")
 
     def _calculate_turning_age(self, dob: date | None) -> int | None:
         if dob is None:

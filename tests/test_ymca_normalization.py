@@ -130,3 +130,9 @@ def test_turning_age_derivation():
 
     assert snapshot.turning_age == 19
     assert flags.turning_age == 19
+    
+def test_branch_mapping_is_loaded_from_config():
+    svc = YmcaNormalizationService()
+
+    assert svc.branch_mapping["easton ymca"] == "easton"
+    assert svc.branch_mapping["bethlehem ymca"] == "bethlehem"
