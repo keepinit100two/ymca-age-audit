@@ -9,7 +9,11 @@
     "bethlehem ymca": "bethlehem",
     "doylestown ymca": "doylestown"
   },
-  "exclusion_rules": {},
+  "exclusion_rules": {
+    "exclude_employee_memberships": true,
+    "active_member_statuses": ["active"],
+    "active_membership_statuses": ["active"]
+  },
   "contactability_policy": {},
   "transition_rules": {}
 }

@@ -101,10 +101,12 @@ class DerivedFlags(BaseModel):
 # -------------------------
 
 TransitionType = Literal[
-    "age_13",
-    "age_19",
-    "age_28",
-    "age_65",
+    "YOUTH_TO_TEEN_13",
+    "TEEN_TO_YOUNG_ADULT_19",
+    "YOUNG_ADULT_TO_ADULT_28",
+    "FAMILY_DEPENDENT_AGE_OUT_28",
+    "ADULT_TO_ACTIVE_OLDER_ADULT_65",
+    "TWO_ADULT_TO_TWO_ACTIVE_OLDER_ADULTS_65",
 ]
 
 ExclusionCode = Literal[
@@ -115,3 +117,20 @@ ExclusionCode = Literal[
     "EXCLUDED_NO_CONTACT",
     "EXCLUDED_UNKNOWN",
 ]
+
+EligibilityDecision = Literal[
+    "ELIGIBLE",
+    "EXCLUDED",
+    "NEEDS_ENRICHMENT",
+]
+
+EnrichmentType = Literal[
+    "HOUSEHOLD_MEMBER_LOOKUP",
+]
+
+
+class TransitionClassification(BaseModel):
+    transition_type: Optional[TransitionType]
+    target_membership_type: Optional[str]
+    in_scope: bool
+    out_of_scope_reason: Optional[str]
