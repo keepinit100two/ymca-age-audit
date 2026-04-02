@@ -134,3 +134,19 @@ class TransitionClassification(BaseModel):
     target_membership_type: Optional[str]
     in_scope: bool
     out_of_scope_reason: Optional[str]
+
+    
+class YmcaEvaluationResult(BaseModel):
+    member_id: str
+    membership_id: str
+    branch_id: str
+
+    transition_type: Optional[TransitionType]
+    target_membership_type: Optional[str]
+
+    decision: EligibilityDecision
+    exclusion_codes: list[str]
+    enrichment_required: list[EnrichmentType]
+
+    in_scope: bool
+    out_of_scope_reason: Optional[str]
