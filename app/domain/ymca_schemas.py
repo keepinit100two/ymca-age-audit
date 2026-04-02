@@ -191,3 +191,9 @@ class MemberCaseStoreResult(BaseModel):
     created: bool
     case: MemberCase
     reason: str
+    
+
+class YmcaExecutionResult(BaseModel):
+    evaluation_result: YmcaEvaluationResult
+    case_creation_decision: CaseCreationDecision
+    store_result: Optional[MemberCaseStoreResult]
