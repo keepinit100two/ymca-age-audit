@@ -185,3 +185,9 @@ class CaseCreationDecision(BaseModel):
     should_create_case: bool
     reason: str
     case: Optional[MemberCase]
+    
+    
+class MemberCaseStoreResult(BaseModel):
+    created: bool
+    case: MemberCase
+    reason: str
