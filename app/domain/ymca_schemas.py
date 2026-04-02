@@ -150,3 +150,38 @@ class YmcaEvaluationResult(BaseModel):
 
     in_scope: bool
     out_of_scope_reason: Optional[str]
+    
+    
+class MemberCaseIdentity(BaseModel):
+    case_id: str
+    case_semantic_key: str
+    member_id: str
+    membership_id: str
+    branch_id: str
+
+
+class MemberCaseQualification(BaseModel):
+    transition_type: TransitionType
+    target_membership_type: Optional[str]
+    decision: EligibilityDecision
+    exclusion_codes: list[str]
+    enrichment_required: list[EnrichmentType]
+    in_scope: bool
+    out_of_scope_reason: Optional[str]
+
+
+class MemberCaseControl(BaseModel):
+    effective_period: str
+    version: int
+
+
+class MemberCase(BaseModel):
+    identity: MemberCaseIdentity
+    qualification: MemberCaseQualification
+    control: MemberCaseControl
+
+
+class CaseCreationDecision(BaseModel):
+    should_create_case: bool
+    reason: str
+    case: Optional[MemberCase]
